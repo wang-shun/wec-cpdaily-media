@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+
+	<context id="noPatitionTables" targetRuntime="MyBatis3">
+	<plugin type="org.mybatis.generator.plugins.MysqlPaginationPlugin" />
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+
+
+
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://172.16.7.54:3306/wec_cpdaily_open" userId="admindev" password="wisedu@2017">
+		</jdbcConnection>
+
+
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<javaModelGenerator targetPackage="com.wisedu.wec.open.app.dal.model.origin.nopartition" targetProject="..\wec-open-app-dal\src\main\java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<sqlMapGenerator targetPackage="sqlmapping.origin.nopartition" targetProject="..\wec-open-app-web\src\main\resources\base">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.wisedu.wec.open.app.dal.mapper.origin.nopartition" targetProject="..\wec-open-app-dal\src\main\java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+
+		<table tableName="t_doc_catalog" domainObjectName="DocCatalogEntity" enableInsert="true" enableSelectByPrimaryKey="true" enableSelectByExample="true"   enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true" enableDeleteByExample="true" enableCountByExample="true" enableUpdateByExample="true" selectByExampleQueryId="true"  >
+			<generatedKey column="wid" sqlStatement="Mysql" identity="true" type = "post" />
+		</table>
+
+		<!--<table tableName="t_coun_dict_module" domainObjectName="DictModule" enableInsert="true" enableSelectByPrimaryKey="true" enableSelectByExample="true"   enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true" enableDeleteByExample="true" enableCountByExample="true" enableUpdateByExample="true" selectByExampleQueryId="true"  >-->
+			<!--<generatedKey column="wid" sqlStatement="Mysql" identity="true" type = "post" />-->
+		<!--</table>-->
+
+		<!--<table tableName="t_coun_module_count" domainObjectName="ModuleCount" enableInsert="true" enableSelectByPrimaryKey="true" enableSelectByExample="true"   enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true" enableDeleteByExample="true" enableCountByExample="true" enableUpdateByExample="true" selectByExampleQueryId="true"  >-->
+			<!--<generatedKey column="wid" sqlStatement="Mysql" identity="true" type = "post" />-->
+		<!--</table>-->
+
+
+	</context>
+</generatorConfiguration>

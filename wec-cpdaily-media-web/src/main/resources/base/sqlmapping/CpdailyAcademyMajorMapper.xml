@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wisedu.wec.media.dal.mybatis.CpdailyAcademyMajorMapper">
+
+  <select id="selectAcademyMajorsByMajorIds" resultType="com.wisedu.wec.media.common.old.vo.AcademyMajor">
+     select * from t_cpdaily_academymajors where majors_id in
+     <foreach item="item" index="index" collection="majorIds" open="(" separator="," close=")">
+      #{item}  
+    </foreach>
+      and tenant_Id = #{tenantId}
+  </select>
+
+</mapper>

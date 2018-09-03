@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wisedu.wec.media.dal.mybatis.MediaPersonRelationMapper">
+  <resultMap id="BaseResultMap" type="com.wisedu.wec.media.common.old.po.MediaPersonRelation">
+    <result column="person_id" jdbcType="VARCHAR" property="personId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="media_id" jdbcType="VARCHAR" property="mediaId" />
+    <result column="manage_type" jdbcType="VARCHAR" property="manageType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    person_id, media_id, manage_type, user_id
+  </sql>
+  <insert id="insert" parameterType="com.wisedu.wec.media.common.old.po.MediaPersonRelation">
+    insert into t_cpdaily_media_person_relation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      person_id,
+      media_id,
+      user_id,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{personId,jdbcType=VARCHAR},
+      #{mediaId,jdbcType=VARCHAR},
+      #{manageType,jdbcType=VARCHAR},
+      #{userId,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <insert id="insertSelective" parameterType="com.wisedu.wec.media.common.old.po.MediaPersonRelation">
+    insert into t_cpdaily_media_person_relation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="personId != null">
+        person_id,
+      </if>
+      <if test="mediaId != null">
+        media_id,
+      </if>
+      <if test="manageType != null">
+        manage_type,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="personId != null">
+        #{personId,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaId != null">
+        #{mediaId,jdbcType=VARCHAR},
+      </if>
+      <if test="manageType != null">
+        #{manageType,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteByColumn" parameterType="map">
+    update t_cpdaily_media_person_relation set is_deleted = 1 where 
+    <choose>
+      <when test="columnValue == null">
+        ${columnName} is null
+      </when>
+      <when test="columnValue != null">
+        ${columnName} = #{columnValue}
+      </when>
+    </choose>
+  </delete>
+
+  <delete id="deleteManagerByMediaId">
+    update t_cpdaily_media_person_relation set is_deleted = 1
+    where media_id = #{mediaId,jdbcType=VARCHAR}
+    and manage_type = 'MANAGE'
+    and is_deleted = 0
+  </delete>
+
+  <insert id="insertManager">
+    insert into t_cpdaily_media_person_relation (person_id, user_id, media_id, manage_type) values
+    <foreach item="item" collection="mediaPersonRelations" separator=",">
+      (#{item.personId,jdbcType=VARCHAR}, #{item.userId,jdbcType=VARCHAR}, #{item.mediaId,jdbcType=VARCHAR}, #{item.manageType,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+</mapper>

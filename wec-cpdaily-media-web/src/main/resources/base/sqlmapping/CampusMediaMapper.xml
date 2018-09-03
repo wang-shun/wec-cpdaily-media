@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wisedu.wec.media.dal.mybatis.CampusMediaMapper">
+  <resultMap id="BaseResultMap" type="com.wisedu.wec.media.common.old.po.CampusMedia">
+    <id column="WID" jdbcType="VARCHAR" property="wid" />
+    <result column="ICON" jdbcType="VARCHAR" property="icon" />
+    <result column="BACKGROUND_IMG" jdbcType="VARCHAR" property="backgroundImg" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="TENANT_ID" jdbcType="VARCHAR" property="tenantId" />
+    <result column="MEDIA_TYPE" jdbcType="CHAR" property="mediaType" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="C_USER_ID" jdbcType="VARCHAR" property="createUserId" />
+    <result column="SORT_NO" jdbcType="INTEGER" property="sortNo" />
+    <result column="IS_DELETE" jdbcType="CHAR" property="isDelete" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="LOGIN_PASSWORD" jdbcType="VARCHAR" property="loginPassword" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="IS_HIDE" jdbcType="VARCHAR" property="isHide" />
+    <result column="IS_ASSOCIATED_WECHAT" jdbcType="VARCHAR" property="isAssociatedWechat" />
+    <result column="WECHAT_ID" jdbcType="VARCHAR" property="wechatId" />
+    <result column="auth_status" jdbcType="CHAR" property="authStatus" />
+    <result column="auth_materials" jdbcType="VARCHAR" property="authMaterials" />
+    <result column="is_anonymous" jdbcType="INTEGER" property="isAnonymous" />
+    <result column="can_see_org_structure" jdbcType="INTEGER" property="canSeeOrgStructure" />
+    <result column="review_opinion" jdbcType="INTEGER" property="reviewOpinion" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="can_upgrade" jdbcType="INTEGER" property="canUpgrade" />
+    <result column="last_read_comment_time" jdbcType="TIMESTAMP" property="lastReadCommentTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.wisedu.wec.media.common.old.po.CampusMedia">
+    <result column="DESCRIPTION" jdbcType="LONGVARCHAR" property="description" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    WID, ICON, BACKGROUND_IMG, NAME, TENANT_ID, MEDIA_TYPE, UPDATE_TIME, CREATE_TIME, C_USER_ID, SORT_NO, 
+    IS_DELETE, STATUS, LOGIN_PASSWORD, EMAIL, IS_HIDE, IS_ASSOCIATED_WECHAT, WECHAT_ID, 
+    auth_status, auth_materials, is_anonymous, can_see_org_structure,version,can_upgrade,last_read_comment_time
+  </sql>
+  <sql id="Blob_Column_List">
+    DESCRIPTION
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.wisedu.wec.media.common.old.po.CampusMediaExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_cpdaily_campus_media
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.wisedu.wec.media.common.old.po.CampusMediaExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_cpdaily_campus_media
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_cpdaily_campus_media
+    where WID = #{wid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_cpdaily_campus_media
+    where WID = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wisedu.wec.media.common.old.po.CampusMediaExample">
+    delete from t_cpdaily_campus_media
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wisedu.wec.media.common.old.po.CampusMedia">
+    insert into t_cpdaily_campus_media (WID, ICON, BACKGROUND_IMG, 
+      NAME, TENANT_ID, MEDIA_TYPE, CREATE_TIME,
+      UPDATE_TIME, C_USER_ID, SORT_NO, 
+      IS_DELETE, STATUS, LOGIN_PASSWORD, 
+      EMAIL, IS_HIDE, IS_ASSOCIATED_WECHAT, 
+      WECHAT_ID, auth_status, auth_materials, 
+      is_anonymous, DESCRIPTION,version,can_upgrade,last_read_comment_time)
+    values (#{wid,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{backgroundImg,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR}, #{mediaType,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, #{sortNo,jdbcType=INTEGER}, 
+      #{isDelete,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{loginPassword,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{isHide,jdbcType=VARCHAR}, #{isAssociatedWechat,jdbcType=VARCHAR}, 
+      #{wechatId,jdbcType=VARCHAR}, #{authStatus,jdbcType=CHAR}, #{authMaterials,jdbcType=VARCHAR}, 
+      #{isAnonymous,jdbcType=INTEGER}, #{description,jdbcType=LONGVARCHAR}, #{version,jdbcType=VARCHAR}, #{canUpgrade,jdbcType=INTEGER},
+      #{lastReadCommentTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wisedu.wec.media.common.old.po.CampusMedia">
+    insert into t_cpdaily_campus_media
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="wid != null">
+        WID,
+      </if>
+      <if test="icon != null">
+        ICON,
+      </if>
+      <if test="backgroundImg != null">
+        BACKGROUND_IMG,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="tenantId != null">
+        TENANT_ID,
+      </if>
+      <if test="mediaType != null">
+        MEDIA_TYPE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="createUserId != null">
+        C_USER_ID,
+      </if>
+      <if test="sortNo != null">
+        SORT_NO,
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="loginPassword != null">
+        LOGIN_PASSWORD,
+      </if>
+      <if test="email != null">
+        EMAIL,
+      </if>
+      <if test="isHide != null">
+        IS_HIDE,
+      </if>
+      <if test="isAssociatedWechat != null">
+        IS_ASSOCIATED_WECHAT,
+      </if>
+      <if test="wechatId != null">
+        WECHAT_ID,
+      </if>
+      <if test="authStatus != null">
+        auth_status,
+      </if>
+      <if test="authMaterials != null">
+        auth_materials,
+      </if>
+      <if test="isAnonymous != null">
+        is_anonymous,
+      </if>
+      <if test="description != null">
+        DESCRIPTION,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="canUpgrade != null">
+        can_upgrade,
+      </if>
+      <if test="lastReadCommentTime != null">
+        last_read_comment_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="wid != null">
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="backgroundImg != null">
+        #{backgroundImg,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="tenantId != null">
+        #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaType != null">
+        #{mediaType,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNo != null">
+        #{sortNo,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=CHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="loginPassword != null">
+        #{loginPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="isHide != null">
+        #{isHide,jdbcType=VARCHAR},
+      </if>
+      <if test="isAssociatedWechat != null">
+        #{isAssociatedWechat,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatId != null">
+        #{wechatId,jdbcType=VARCHAR},
+      </if>
+      <if test="authStatus != null">
+        #{authStatus,jdbcType=CHAR},
+      </if>
+      <if test="authMaterials != null">
+        #{authMaterials,jdbcType=VARCHAR},
+      </if>
+      <if test="isAnonymous != null">
+        #{isAnonymous,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="version != null">
+         #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="canUpgrade != null">
+         #{canUpgrade,jdbcType=INTEGER},
+      </if>
+      <if test="lastReadCommentTime != null">
+        #{lastReadCommentTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wisedu.wec.media.common.old.po.CampusMediaExample" resultType="java.lang.Long">
+    select count(*) from t_cpdaily_campus_media
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_cpdaily_campus_media
+    <set>
+      <if test="record.wid != null">
+        WID = #{record.wid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.icon != null">
+        ICON = #{record.icon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backgroundImg != null">
+        BACKGROUND_IMG = #{record.backgroundImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tenantId != null">
+        TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mediaType != null">
+        MEDIA_TYPE = #{record.mediaType,jdbcType=CHAR},
+      </if>
+      <if test="record.updateTime != null">
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null">
+        C_USER_ID = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortNo != null">
+        SORT_NO = #{record.sortNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.isDelete != null">
+        IS_DELETE = #{record.isDelete,jdbcType=CHAR},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=CHAR},
+      </if>
+      <if test="record.loginPassword != null">
+        LOGIN_PASSWORD = #{record.loginPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        EMAIL = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isHide != null">
+        IS_HIDE = #{record.isHide,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isAssociatedWechat != null">
+        IS_ASSOCIATED_WECHAT = #{record.isAssociatedWechat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wechatId != null">
+        WECHAT_ID = #{record.wechatId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authStatus != null">
+        auth_status = #{record.authStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.authMaterials != null">
+        auth_materials = #{record.authMaterials,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isAnonymous != null">
+        is_anonymous = #{record.isAnonymous,jdbcType=INTEGER},
+      </if>
+      <if test="record.description != null">
+        DESCRIPTION = #{record.description,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=VARCHAR},
+      </if>
+      <if test="record.canUpgrade != null">
+        can_upgrade = #{record.canUpgrade,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastReadCommentTime != null">
+        last_read_comment_time = #{record.lastReadCommentTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update t_cpdaily_campus_media
+    set WID = #{record.wid,jdbcType=VARCHAR},
+      ICON = #{record.icon,jdbcType=VARCHAR},
+      BACKGROUND_IMG = #{record.backgroundImg,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      MEDIA_TYPE = #{record.mediaType,jdbcType=CHAR},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      C_USER_ID = #{record.createUserId,jdbcType=VARCHAR},
+      SORT_NO = #{record.sortNo,jdbcType=INTEGER},
+      IS_DELETE = #{record.isDelete,jdbcType=CHAR},
+      STATUS = #{record.status,jdbcType=CHAR},
+      LOGIN_PASSWORD = #{record.loginPassword,jdbcType=VARCHAR},
+      EMAIL = #{record.email,jdbcType=VARCHAR},
+      IS_HIDE = #{record.isHide,jdbcType=VARCHAR},
+      IS_ASSOCIATED_WECHAT = #{record.isAssociatedWechat,jdbcType=VARCHAR},
+      WECHAT_ID = #{record.wechatId,jdbcType=VARCHAR},
+      auth_status = #{record.authStatus,jdbcType=CHAR},
+      auth_materials = #{record.authMaterials,jdbcType=VARCHAR},
+      is_anonymous = #{record.isAnonymous,jdbcType=INTEGER},
+      DESCRIPTION = #{record.description,jdbcType=LONGVARCHAR},
+      version = #{record.version,jdbcType=VARCHAR},
+      can_upgrade = #{record.canUpgrade,jdbcType=INTEGER},
+      last_read_comment_time = #{record.lastReadCommentTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_cpdaily_campus_media
+    set WID = #{record.wid,jdbcType=VARCHAR},
+      ICON = #{record.icon,jdbcType=VARCHAR},
+      BACKGROUND_IMG = #{record.backgroundImg,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      MEDIA_TYPE = #{record.mediaType,jdbcType=CHAR},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      C_USER_ID = #{record.createUserId,jdbcType=VARCHAR},
+      SORT_NO = #{record.sortNo,jdbcType=INTEGER},
+      IS_DELETE = #{record.isDelete,jdbcType=CHAR},
+      STATUS = #{record.status,jdbcType=CHAR},
+      LOGIN_PASSWORD = #{record.loginPassword,jdbcType=VARCHAR},
+      EMAIL = #{record.email,jdbcType=VARCHAR},
+      IS_HIDE = #{record.isHide,jdbcType=VARCHAR},
+      IS_ASSOCIATED_WECHAT = #{record.isAssociatedWechat,jdbcType=VARCHAR},
+      WECHAT_ID = #{record.wechatId,jdbcType=VARCHAR},
+      auth_status = #{record.authStatus,jdbcType=CHAR},
+      auth_materials = #{record.authMaterials,jdbcType=VARCHAR},
+      is_anonymous = #{record.isAnonymous,jdbcType=INTEGER},
+      version = #{record.version,jdbcType=VARCHAR},
+      can_upgrade = #{record.canUpgrade,jdbcType=INTEGER},
+      last_read_comment_time = #{record.lastReadCommentTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wisedu.wec.media.common.old.po.CampusMedia">
+    update t_cpdaily_campus_media
+    <set>
+      <if test="icon != null">
+        ICON = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="backgroundImg != null">
+        BACKGROUND_IMG = #{backgroundImg,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="tenantId != null">
+        TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaType != null">
+        MEDIA_TYPE = #{mediaType,jdbcType=CHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        C_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNo != null">
+        SORT_NO = #{sortNo,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE = #{isDelete,jdbcType=CHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="loginPassword != null">
+        LOGIN_PASSWORD = #{loginPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="isHide != null">
+        IS_HIDE = #{isHide,jdbcType=VARCHAR},
+      </if>
+      <if test="isAssociatedWechat != null">
+        IS_ASSOCIATED_WECHAT = #{isAssociatedWechat,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatId != null">
+        WECHAT_ID = #{wechatId,jdbcType=VARCHAR},
+      </if>
+      <if test="authStatus != null">
+        auth_status = #{authStatus,jdbcType=CHAR},
+      </if>
+      <if test="authMaterials != null">
+        auth_materials = #{authMaterials,jdbcType=VARCHAR},
+      </if>
+      <if test="isAnonymous != null">
+        is_anonymous = #{isAnonymous,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        DESCRIPTION = #{description,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="canUpgrade != null">
+        can_upgrade = #{canUpgrade,jdbcType=INTEGER},
+      </if>
+      <if test="lastReadCommentTime != null">
+        last_read_comment_time = #{lastReadCommentTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wisedu.wec.media.common.old.po.CampusMedia">
+    update t_cpdaily_campus_media
+    set ICON = #{icon,jdbcType=VARCHAR},
+      BACKGROUND_IMG = #{backgroundImg,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      MEDIA_TYPE = #{mediaType,jdbcType=CHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      C_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      SORT_NO = #{sortNo,jdbcType=INTEGER},
+      IS_DELETE = #{isDelete,jdbcType=CHAR},
+      STATUS = #{status,jdbcType=CHAR},
+      LOGIN_PASSWORD = #{loginPassword,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      IS_HIDE = #{isHide,jdbcType=VARCHAR},
+      IS_ASSOCIATED_WECHAT = #{isAssociatedWechat,jdbcType=VARCHAR},
+      WECHAT_ID = #{wechatId,jdbcType=VARCHAR},
+      auth_status = #{authStatus,jdbcType=CHAR},
+      auth_materials = #{authMaterials,jdbcType=VARCHAR},
+      is_anonymous = #{isAnonymous,jdbcType=INTEGER},
+      DESCRIPTION = #{description,jdbcType=LONGVARCHAR},
+      version = #{record.version,jdbcType=VARCHAR},
+      can_upgrade = #{record.canUpgrade,jdbcType=INTEGER},
+      last_read_comment_time = #{record.lastReadCommentTime,jdbcType=TIMESTAMP},
+       last_read_comment_time = #{record.lastReadCommentTime,jdbcType=TIMESTAMP}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wisedu.wec.media.common.old.po.CampusMedia">
+    update t_cpdaily_campus_media
+    set ICON = #{icon,jdbcType=VARCHAR},
+      BACKGROUND_IMG = #{backgroundImg,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      MEDIA_TYPE = #{mediaType,jdbcType=CHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      C_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      SORT_NO = #{sortNo,jdbcType=INTEGER},
+      IS_DELETE = #{isDelete,jdbcType=CHAR},
+      STATUS = #{status,jdbcType=CHAR},
+      LOGIN_PASSWORD = #{loginPassword,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      IS_HIDE = #{isHide,jdbcType=VARCHAR},
+      IS_ASSOCIATED_WECHAT = #{isAssociatedWechat,jdbcType=VARCHAR},
+      WECHAT_ID = #{wechatId,jdbcType=VARCHAR},
+      auth_status = #{authStatus,jdbcType=CHAR},
+      auth_materials = #{authMaterials,jdbcType=VARCHAR},
+      is_anonymous = #{isAnonymous,jdbcType=INTEGER},
+      version = #{record.version,jdbcType=VARCHAR},
+      can_upgrade = #{record.canUpgrade,jdbcType=INTEGER},
+      last_read_comment_time = #{record.lastReadCommentTime,jdbcType=TIMESTAMP}
+    where WID = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>

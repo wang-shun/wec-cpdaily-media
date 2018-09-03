@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+
+	<context id="SchoolPartitionTablesW" targetRuntime="MyBatis3">
+	<plugin type="org.mybatis.generator.plugins.MysqlPaginationPlugin" /> 
+    <plugin type="org.mybatis.generator.plugins.SuffixAdderPlugin" />
+
+      
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		  
+
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://172.16.7.111:3306/wec_biz_counselor" userId="admin" password="wisedu@2016">
+		<!-- <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@localhost:1521:orcl" userId="msa" password="msa">-->
+		</jdbcConnection>
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<javaModelGenerator targetPackage="com.wisedu.wec.open.app.dal.model.origin.schoolpartition" targetProject="..\wec-open-app-dal\src\main\java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<sqlMapGenerator targetPackage="sqlmapping.origin.schoolpartition" targetProject="..\wec-open-app-web\src\main\resources\base">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.wisedu.wec.open.app.dal.mapper.origin.schoolpartition" targetProject="..\wec-open-app-dal\src\main\java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		
+	<!---->
+ 		<!--<table tableName="t_coun_reminder" domainObjectName="Reminder" enableInsert="true" enableSelectByPrimaryKey="true" enableSelectByExample="true"   enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true" enableDeleteByExample="true" enableCountByExample="true" enableUpdateByExample="true" selectByExampleQueryId="true"  >-->
+ 		<!--<property name="runtimeTableName" value="t_coun_reminder_${suffix}"/>-->
+ 		 <!--<generatedKey column="wid" sqlStatement="Mysql" identity="true" type = "post" />-->
+ 		<!--</table>-->
+
+ 		<!--<table tableName="t_coun_comment" domainObjectName="Comment" enableInsert="true" enableSelectByPrimaryKey="true" enableSelectByExample="true"   enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true" enableDeleteByExample="true" enableCountByExample="true" enableUpdateByExample="true" selectByExampleQueryId="true"  >-->
+ 			<!--<property name="runtimeTableName" value="t_coun_comment_${suffix}"/>-->
+ 			<!--<generatedKey column="wid" sqlStatement="Mysql" identity="true" type = "post" />-->
+ 		<!--</table>-->
+
+<!-- 		<table tableName="t_coun_comment_reply" domainObjectName="CommentReply" enableInsert="true" enableSelectByPrimaryKey="true" enableSelectByExample="true"   enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true" enableDeleteByExample="true" enableCountByExample="true" enableUpdateByExample="true" selectByExampleQueryId="true"  > -->
+<!-- 			<property name="runtimeTableName" value="t_coun_comment_reply_${suffix}"/> -->
+<!-- 			<generatedKey column="wid" sqlStatement="Mysql" identity="true" type = "post" /> -->
+<!-- 		</table> -->
+
+		<table tableName="t_coun_dynamics" domainObjectName="Dynamics" enableInsert="true" enableSelectByPrimaryKey="true" enableSelectByExample="true"   enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true" enableDeleteByExample="true" enableCountByExample="true" enableUpdateByExample="true" selectByExampleQueryId="true"  >
+			<property name="runtimeTableName" value="t_coun_dynamics_${suffix}"/>
+			<generatedKey column="wid" sqlStatement="Mysql" identity="true" type = "post" />
+		</table>
+		
+<!-- 		<table tableName="t_coun_activity" domainObjectName="Activity" enableInsert="true" enableSelectByPrimaryKey="true" enableSelectByExample="true"   enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true" enableDeleteByExample="true" enableCountByExample="true" enableUpdateByExample="true" selectByExampleQueryId="true"  > -->
+<!-- 			<property name="runtimeTableName" value="t_coun_activity_${suffix}"/> -->
+<!-- 			<generatedKey column="wid" sqlStatement="Mysql" identity="true" type = "post" /> -->
+<!-- 		</table> -->
+		
+
+	</context>
+</generatorConfiguration>

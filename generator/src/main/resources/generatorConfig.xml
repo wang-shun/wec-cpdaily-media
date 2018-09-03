@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="context1">
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+    
+        <plugin type="com.ilovey.mybatis.plugin.MysqlPagePlugin"/>
+        <plugin type="com.ilovey.mybatis.plugin.MysqlDeleteByExamplePlugin"/>
+        <plugin type="com.ilovey.mybatis.plugin.LombokPlugin"/>
+
+        <commentGenerator type="com.ilovey.mybatis.comment.MyCommentGenerator">
+
+        </commentGenerator>
+
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+         connectionURL="jdbc:mysql://172.16.2.131:3306/cpdaily?useUnicode=true&amp;characterEncoding=UTF8"
+         userId="root" password="123456">
+        </jdbcConnection>
+        
+        <javaModelGenerator targetPackage="com.wisedu.wec.media.common.old.po"
+         targetProject="wec-cpdaily-media-common/src/main/java"/>
+        <sqlMapGenerator targetPackage="sqlmapping"
+         targetProject="wec-cpdaily-media-web/src/main/resources/base"/>
+        <javaClientGenerator targetPackage="com.wisedu.wec.media.dal.mybatis"
+         targetProject="wec-cpdaily-media-dal/src/main/java" type="XMLMAPPER"/>
+        
+        <table tableName="t_cpdaily_media_comment"  domainObjectName="MediaComment">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+      <!--  <table tableName="t_cpdaily_media_fans"  domainObjectName="MediaFans">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="t_cpdaily_media_visiting_record"  domainObjectName="MediaVisitingRecord">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>-->
+
+
+
+
+    </context>
+</generatorConfiguration>

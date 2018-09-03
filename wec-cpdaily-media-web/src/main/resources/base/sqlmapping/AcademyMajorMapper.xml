@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wisedu.wec.media.dal.mybatis.AcademyMajorMapper">
+  <resultMap id="BaseResultMap" type="com.wisedu.wec.media.common.old.po.AcademyMajor">
+    <result column="majors_id" jdbcType="VARCHAR" property="majorsId" />
+    <result column="major_Name" jdbcType="VARCHAR" property="majorName" />
+    <result column="academy_Id" jdbcType="VARCHAR" property="academyId" />
+    <result column="academy_Name" jdbcType="VARCHAR" property="academyName" />
+  </resultMap>
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/rabbit
+       http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+       http://www.springframework.org/schema/task
+       http://www.springframework.org/schema/task/spring-task-4.1.xsd">
+
+	<bean id="connectionFactory"
+		class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
+		<property name="username" value="wecloud" />
+		<property name="password" value="wisedu@2016" />
+		<property name="virtualHost" value="cpdaily" />
+		<property name="host" value="172.16.7.132" />
+		<property name="port" value="5672" />
+	</bean>
+	<bean id="messageConverter"
+		class="org.springframework.amqp.support.converter.JsonMessageConverter">
+	</bean>
+	<rabbit:admin id="rabbitAdmin" connection-factory="connectionFactory" />
+
+	<!-- 租户创建同步 -->
+	<rabbit:queue name="tenant.counselor.apps" auto-declare="true"
+		durable="true" auto-delete="false" declared-by="rabbitAdmin"
+		id="tenant.counselor.apps" />
+	<rabbit:fanout-exchange name="cpdaily.tenant.source"
+		auto-declare="true" auto-delete="false" durable="true" declared-by="rabbitAdmin">
+		<rabbit:bindings>
+			<rabbit:binding queue="tenant.counselor.apps" />
+		</rabbit:bindings>
+	</rabbit:fanout-exchange>
+	<bean id="tenantConsumerMsg"
+		class="com.wisedu.wec.open.biz.mqconsumer.TenantQueueConsumer" />
+	<bean id="tenantConsumerListener"
+		class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
+		<constructor-arg ref="tenantConsumerMsg" />
+		<property name="defaultListenerMethod" value="onMessage"></property>
+		<property name="messageConverter" ref="messageConverter"></property>
+	</bean>
+	<bean id="tenantListenerContainer"
+		class="org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer">
+		<property name="queueNames" value="tenant.counselor.apps" />
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="messageListener" ref="tenantConsumerListener" />
+		<property name="concurrentConsumers" value="1" />
+		<property name="maxConcurrentConsumers" value="1" />
+	</bean>
+</beans>

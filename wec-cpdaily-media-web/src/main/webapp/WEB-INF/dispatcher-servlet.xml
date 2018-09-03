@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	
+
+	<bean id="appProperty" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<array>
+				<value>classpath:base.properties</value>
+				<value>classpath:im.properties</value>
+				<value>classpath:oss.properties</value>
+			</array>
+		</property>
+	</bean>
+
+	<!-- <context:annotation-config /> -->
+	<!-- Configures the @Controller programming model -->
+	<context:component-scan base-package="com.wisedu.wec" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+	</context:component-scan>
+	<mvc:annotation-driven
+		content-negotiation-manager="contentNegotiationManager" />
+
+
+
+	<bean id="contentNegotiationManager"
+		class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="favorPathExtension" value="false" />
+		<property name="favorParameter" value="false" />
+		<property name="ignoreAcceptHeader" value="false" />
+		<property name="mediaTypes">
+			<value>
+				atom=application/atom+xml
+				html=text/html
+				json=application/json
+				*=*/*
+			</value>
+		</property>
+	</bean>
+
+
+	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 以字节为单位的最大上传文件的大小 120MB -->
+		<property name="maxUploadSize" value="125829120" />
+	</bean>
+
+<!-- Http Message Converters -->
+	<util:list id="messageConverters">
+		<!-- ByteArray Http Message Converter -->
+		<bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+		<!-- String Http Message Converter -->
+		<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+			<constructor-arg name="defaultCharset" value="UTF-8" />
+			<property name="writeAcceptCharset" value="false" />
+		</bean>
+		<!-- BufferedImage Http Message Converter -->
+		<bean class="org.springframework.http.converter.BufferedImageHttpMessageConverter" />
+		<!-- Resource Http Message Converter -->
+		<bean class="org.springframework.http.converter.ResourceHttpMessageConverter" />
+		<!-- Source Http Message Converter -->
+		<bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />
+		<!-- All Encompassing Form Http Message Converter -->
+		<bean class="org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter" />
+		<!-- XML Http Message Converter -->
+		<bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" />
+		<!-- JSON Http Message Converter -->
+		<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+			<property name="prettyPrint" value="true" />
+			<property name="objectMapper" ref="objectMapper" />
+		</bean>
+	</util:list>
+
+	<!-- JSON Object Mapper -->
+	<bean id="objectMapper" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
+		<property name="serializationInclusion">
+			<value type="com.fasterxml.jackson.annotation.JsonInclude.Include">NON_NULL</value>
+		</property>
+		<property name="featuresToEnable">
+			<array>
+				<util:constant static-field="com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES" />
+				<util:constant static-field="com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_SINGLE_QUOTES" />
+			</array>
+		</property>
+		<property name="featuresToDisable">
+			<array>
+				<util:constant static-field="com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS" />
+				<util:constant static-field="com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES" />
+			</array>
+		</property>
+	</bean>
+
+	<!-- Exception Resolver -->
+	<bean id="handlerExceptionResolver" class="com.wisedu.wec.media.common.old.interceptor.CommonExceptionHandlerExceptionResolver">
+		<property name="errorDefaultView" value="500" />
+		<property name="messageConverters" ref="messageConverters" />
+	</bean>
+
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html;charset=UTF-8</value>
+						<value>application/json;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!--<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" 
+		> <property name="order" value="0" /> </bean> -->
+</beans>

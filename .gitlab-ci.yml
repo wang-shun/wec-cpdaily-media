@@ -1,0 +1,42 @@
+image: 172.16.9.100:5000/java_ci:latest
+stages:
+  - test
+  - build
+test:
+  stage: test
+  tags:
+    - java
+  script:
+    - mvn test
+build_dev:
+  stage: build
+  only:
+    - /^test_v.*$/
+  tags:
+    - docker_builder3
+  script:
+    - bash  ./docker.sh bp 172.16.9.100:5000 testing
+build_test:
+  stage: build
+  only:
+    - /^prod_v.*$/
+  tags:
+    - docker_builder3
+  script:
+    - bash  ./docker.sh bp wecloud1:5000 production
+build_dubbo_dev:
+  stage: build
+  only:
+    - /^dubbo_test_v.*$/
+  tags:
+    - docker_builder3
+  script:
+    - bash  ./dubbo_docker.sh bp 172.16.9.100:5000 testing
+build_dubbo_test:
+  stage: build
+  only:
+    - /^dubbo_prod_v.*$/
+  tags:
+    - docker_builder3
+  script:
+    - bash  ./dubbo_docker.sh bp wecloud1:5000 production

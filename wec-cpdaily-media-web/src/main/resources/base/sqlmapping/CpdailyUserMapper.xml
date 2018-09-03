@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wisedu.wec.media.dal.mybatis.CpdailyUserMapper">
+  <resultMap id="BaseResultMap" type="com.wisedu.wec.media.common.old.po.CpdailyUser">
+    <id column="wId" jdbcType="VARCHAR" property="wid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+    <result column="user_Type" jdbcType="CHAR" property="userType" />
+    <result column="tenant_Id" jdbcType="VARCHAR" property="tenantId" />
+    <result column="academy_Id" jdbcType="VARCHAR" property="academyId" />
+    <result column="major_Id" jdbcType="VARCHAR" property="majorId" />
+    <result column="depart_Id" jdbcType="VARCHAR" property="departId" />
+    <result column="FANS_COUNT" jdbcType="BIGINT" property="fansCount" />
+    <result column="FOLLOW_COUNT" jdbcType="BIGINT" property="followCount" />
+    
+    <result column="gender" jdbcType="CHAR" property="gender" />
+    <result column="user_Src_Type" jdbcType="CHAR" property="userSrcType" />
+    <result column="open_Id" jdbcType="VARCHAR" property="openId" />
+    <result column="DEGREE" jdbcType="VARCHAR" property="degree" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="update_Time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <resultMap id="GroupResultMap" type="com.wisedu.wec.media.common.old.vo.UserWithGroup">
+    <id column="wId" jdbcType="VARCHAR" property="wid" />
+    <id column="wId" jdbcType="VARCHAR" property="userId" />
+    <result column="name" jdbcType="VARCHAR" property="userName" />
+    <result column="img" jdbcType="VARCHAR" property="imgUrl" />
+    <result column="class_id" jdbcType="VARCHAR" property="classId" />
+    <result column="depart_Id" jdbcType="VARCHAR" property="departId" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="pwid" jdbcType="VARCHAR" property="personId" />
+    <result column="user_type" jdbcType="VARCHAR" property="userType" />
+    <result column="academy_Id" jdbcType="VARCHAR" property="academyId" />
+    <result column="major_Id" jdbcType="VARCHAR" property="majorId" />
+  </resultMap>
+  
+  <select id="selectByUserIds4Group" resultMap="GroupResultMap">  
+     select wId,name,img,class_id,gender,depart_Id,open_id,pwid,academy_Id,major_Id,user_type from t_cpdaily_users where wId in
+     <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+      #{item}  
+     </foreach>  
+  </select>
+  
+  <select id="selectByUserIdsAndName4Group" parameterType="java.util.Map" resultMap="GroupResultMap">  
+     select wId,name,img,class_id,depart_Id,gender,open_id,pwid,academy_Id,major_Id,user_type from t_cpdaily_users where wId in
+     <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+      #{item}  
+     </foreach>
+     and (name like #{name} or open_id like #{name})
+  </select>
+
+  <select id="selectByUserIdsAndName4GroupNoOwner" parameterType="java.util.Map" resultMap="GroupResultMap">
+    select wId,name,img,class_id,depart_Id,gender,open_id,pwid,academy_Id,major_Id,user_type from t_cpdaily_users where wId in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    and (INSTR(name,#{name})>0 or INSTR(open_id,#{name})>0 )
+    and pwid != #{pwid}
+  </select>
+  
+  <select id="selectByUserIds" parameterType="java.util.List" resultMap="BaseResultMap">
+    select *
+    from t_cpdaily_users
+    where wid in (
+    <foreach collection="userIds" item="item" index="index" separator="," >
+       #{item}
+    </foreach>)
+  </select>
+
+  <select id="selectByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    *
+    from t_cpdaily_users
+    where wId = #{userId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByPersonId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    *
+    from t_cpdaily_users
+    where pwid = #{pid,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPersonIds" parameterType="java.util.List" resultMap="BaseResultMap">
+    select
+    user.*, depart.depart_name
+    from t_cpdaily_users user left join t_cpdaily_departs depart on user.depart_id = depart.depart_id
+    where user.pwid in
+    <foreach item="id" index="index" collection="personIds" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </select>
+  
+  <insert id="insert" parameterType="com.wisedu.wec.media.common.old.po.CpdailyUser">
+    insert into t_cpdaily_users (wId, name, gender, 
+      img, user_Type, 
+      tenant_Id, update_Time, user_Src_Type, 
+      open_Id, DEGREE, status, 
+      FANS_COUNT, FOLLOW_COUNT)
+    values (#{wid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR}, 
+      #{img,jdbcType=VARCHAR}, #{userType,jdbcType=CHAR}, 
+      #{tenantId,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{userSrcType,jdbcType=CHAR}, 
+      #{openId,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
+      #{fansCount,jdbcType=BIGINT}, #{followCount,jdbcType=BIGINT})
+  </insert>
+  
+</mapper>

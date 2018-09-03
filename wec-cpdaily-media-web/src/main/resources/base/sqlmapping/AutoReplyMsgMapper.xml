@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wisedu.wec.media.dal.mybatis.AutoReplyMsgMapper">
+  <resultMap id="BaseResultMap" type="com.wisedu.wec.media.common.old.po.AutoReplyMsg">
+    <id column="media_id" jdbcType="VARCHAR" property="mediaId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="original_link" jdbcType="VARCHAR" property="originalLink" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
+    <result column="local_url" jdbcType="VARCHAR" property="localUrl" />
+    <result column="owner_id" jdbcType="VARCHAR" property="ownerId" />
+    <result column="tenant_id" jdbcType="VARCHAR" property="tenantId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <insert id="insert" parameterType="com.wisedu.wec.media.common.old.po.AutoReplyMsg">
+    insert into t_cpdaily_media_auto_msg (media_id, title, original_link, 
+      img, summary, local_url, 
+      owner_id, tenant_id, update_time, 
+      content)
+    values (#{mediaId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{originalLink,jdbcType=VARCHAR}, 
+      #{img,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, #{localUrl,jdbcType=VARCHAR}, 
+      #{ownerId,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.wisedu.wec.media.common.old.po.AutoReplyMsg">
+    update t_cpdaily_media_auto_msg
+    set title = #{title,jdbcType=VARCHAR},
+      original_link = #{originalLink,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      summary = #{summary,jdbcType=VARCHAR},
+      local_url = #{localUrl,jdbcType=VARCHAR},
+      owner_id = #{ownerId,jdbcType=VARCHAR},
+      tenant_id = #{tenantId,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where media_id = #{mediaId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select media_id, title, original_link, img, summary, local_url, owner_id, tenant_id, 
+    update_time, content
+    from t_cpdaily_media_auto_msg
+    where media_id = #{mediaId,jdbcType=VARCHAR}
+  </select>
+</mapper>

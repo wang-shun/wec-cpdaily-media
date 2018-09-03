@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我们搬家啦</title>
+    <style type="text/css">
+        .con {
+            text-align: center;
+            margin-top: 160px;
+        }
+        .title {
+            margin-top: 26px;
+            font-family: PingFangSC-Medium;
+            font-size: 20px;
+            color: #464C5B;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+        .desc {
+            margin-top: 16px;
+            font-family: PingFangSC-Medium;
+            font-size: 14px;
+            color: #80848F;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 22px;
+        }
+        a:link, a:hover, a:active, a:visited {
+            color: #4582F1;
+            text-decoration: none;
+        }
+        .count-down {
+            margin-top: 8px;
+            font-family: PingFangSC-Medium;
+            font-size: 14px;
+            color: #464C5B;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 22px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="con">
+        <div>
+            <img src="./move.png">
+        </div>
+        <div class="title">抱歉，我们搬家啦~</div>
+        <div class="desc">校园号平台新的访问网址：<a href="https://v.cpdaily.com/wec-cpdaily-media/index.html#/login">https://v.cpdaily.com</a>  (记得收藏哦)</div>
+        <div class="count-down"><span id="djs">5</span>s 之后跳转至新的网址</div>
+    </div>
+    <script type="text/javascript">
+        var count = 5;
+        var itv = setInterval(function () {
+            document.getElementById('djs').innerText = --count;
+            if (count == 0) {
+                clearInterval(itv)
+                location.href = "https://v.cpdaily.com/wec-cpdaily-media/index.html#/login"
+            }
+        }, 1000)
+    </script>
+</body>
+</html>
